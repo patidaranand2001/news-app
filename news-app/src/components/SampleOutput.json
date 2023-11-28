@@ -1,0 +1,38 @@
+{
+
+    "status": "ok",
+    "totalResults": 67,
+    
+    "articles": [
+        
+        {
+             
+            "source": {
+                "id": null,
+                "name": "Yahoo Entertainment"
+            },
+            "author": null,
+            "title": "50+ best Amazon Black Friday deals of 2023: Our editors' top picks   Yahoo Life",
+            "description": null,
+            "url": "https://www.yahoo.com/lifestyle/50 best amazon black friday deals of 2023 our editors top picks 090038065.html",
+            "urlToImage": null,
+            "publishedAt": "2023 11 24T12:42:40Z",
+            "content": null
+        },
+         
+        {
+             
+            "source": {
+                "id": "mashable",
+                "name": "Mashable"
+            },
+            "author": "Haley Henschel",
+            "title": "180+ best Walmart Black Friday deals for 2023   Mashable",
+            "description": "It's happening!",
+            "url": "https://mashable.com/article/best walmart black friday deals 2023",
+            "urlToImage": "https://helios i.mashable.com/imagery/articles/04ILoeeAOip7Yv2G7SOYHUe/hero image.fill.size_1200x675.v1700820399.jpg",
+            "publishedAt": "2023 11 24T11:37:41Z",
+            "content": null
+        }
+    ]
+}
