@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 
 export default class News extends Component {
- page=1;
+
 constructor(){
   super();
   console.log("hello i am aconstructor from  news component");
   this.state={
     articles:[],
+    page:1,
     loading:false
     
   }
@@ -32,7 +33,7 @@ constructor(){
 // }
 async componentDidMount() {
   try {
-    let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=1";
+    let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=1&pagesize=20";
     let data = await fetch(url);
 
     if (!data.ok) {
@@ -43,6 +44,7 @@ async componentDidMount() {
 
     this.setState({
       articles: parsedData.articles,
+      totalResults:parsedData.totalResults,
       loading: false
     }, () => {
       console.log("Updated state:", this.state.articles,"***");
@@ -55,7 +57,9 @@ async componentDidMount() {
 
 clicktonext =async()=>{
   console.log("next ")
-  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page+1}`;
+  
+
+  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page+1}&pagesize=20`;
     let data = await fetch(url);
 
     if (!data.ok) {
@@ -76,7 +80,7 @@ clicktonext =async()=>{
 clicktoprev =async()=>{
   console.log("prev")
   
-  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page-1}`;
+  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page-1}&pagesize=20`;
     let data = await fetch(url);
 
     if (!data.ok) {
@@ -96,9 +100,12 @@ clicktoprev =async()=>{
 }
 
   render() {
+    console.log(this.state.page)
+    console.log("madrchod")
     // const { articles } = this.state;
     return(
-     
+      
+       
       <div className='container '>
         <h2>NewsMonkey  Top headlines</h2>
         
@@ -114,13 +121,16 @@ clicktoprev =async()=>{
         })}
 
         </div>
+       
         <div className='container d-flex justify-content-between'>
-        <button  disabled={this.state.page<=1}type="button" className="btn btn-info" onClick={this.clicktoprev}> &larr;previous</button>
-        <button type="button" className="btn btn-info" onClick={this.clicktonext}>next &rarr;</button>
+        <button  disabled={this.state.page<=1} type="button" className="btn btn-info" onClick={this.clicktoprev}> &larr;previous</button>
+        <button disabled={Math.ceil(this.state.totalResults)/20 < this.state.page+1} type="button" className="btn btn-info" onClick={this.clicktonext}>next &rarr;</button>
+        
 
         </div>
 
       </div>
+     
     )
   } 
 }
