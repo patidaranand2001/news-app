@@ -102,6 +102,7 @@ clicktoprev =async()=>{
   render() {
     console.log(this.state.page)
     console.log("madrchod")
+    console.log(Math.ceil(this.state.totalResults/20))
     // const { articles } = this.state;
     return(
       
@@ -124,7 +125,7 @@ clicktoprev =async()=>{
        
         <div className='container d-flex justify-content-between'>
         <button  disabled={this.state.page<=1} type="button" className="btn btn-info" onClick={this.clicktoprev}> &larr;previous</button>
-        <button disabled={Math.ceil(this.state.totalResults)/20 < this.state.page+1} type="button" className="btn btn-info" onClick={this.clicktonext}>next &rarr;</button>
+        <button disabled={Math.ceil(this.state.totalResults/20) < this.state.page+1} type="button" className="btn btn-info" onClick={this.clicktonext}>next &rarr;</button>
         
 
         </div>
