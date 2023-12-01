@@ -1,9 +1,22 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
-
+import Loader from './Loader'
+import PropTypes from 'prop-types'
 export default class News extends Component {
 
+  static defaultProps = {
+    country:'in',
+    pagesize:6,
+    category:'science'
+  }
+  static propTypes = {
+     country:PropTypes.string,
+     pagesize:PropTypes.number,
+     category:PropTypes.string
+
+  }
 constructor(){
+
   super();
   console.log("hello i am aconstructor from  news component");
   this.state={
@@ -14,7 +27,7 @@ constructor(){
   }
 }
 // async componentDidMount(){
-// let url="https://newsapi.org/v2/top-headlines?country=us&apiKey=6fd58bc66dea433582af83bbf68f3ef7";
+// let url="https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=6fd58bc66dea433582af83bbf68f3ef7";
 // let data=await fetch(url);
 // if (!data.ok) {
 //   throw new Error(`HTTP error! Status: ${data.status}`);
@@ -33,7 +46,7 @@ constructor(){
 // }
 async componentDidMount() {
   try {
-    let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=1&pagesize=20";
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=1&pagesize=${this.props.pagesize}`;
     let data = await fetch(url);
 
     if (!data.ok) {
@@ -59,9 +72,9 @@ clicktonext =async()=>{
   console.log("next ")
   
 
-  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page+1}&pagesize=20`;
+  let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page+1}&pagesize=${this.props.pagesize}`;
     let data = await fetch(url);
-
+    this.setState({loading:true})
     if (!data.ok) {
       throw new Error(`HTTP error! Status: ${data.status}`);
     }
@@ -80,9 +93,9 @@ clicktonext =async()=>{
 clicktoprev =async()=>{
   console.log("prev")
   
-  let url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page-1}&pagesize=20`;
+  let url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6fd58bc66dea433582af83bbf68f3ef7&page=${this.state.page-1}&pagesize=${this.props.pagesize}`;
     let data = await fetch(url);
-
+    this.setState({loading:true})
     if (!data.ok) {
       throw new Error(`HTTP error! Status: ${data.status}`);
     }
@@ -100,18 +113,20 @@ clicktoprev =async()=>{
 }
 
   render() {
-    console.log(this.state.page)
-    console.log("madrchod")
-    console.log(Math.ceil(this.state.totalResults/20))
+    
     // const { articles } = this.state;
     return(
       
        
       <div className='container '>
-        <h2>NewsMonkey  Top headlines</h2>
+        <h2 className='text-center'>NewsMonkey  Top headlines</h2>
         
+        {this.state.loading && <Loader/>}
+        
+       
+
         <div className='row'>
-        {this.state.articles.map((element)=>{
+        {!this.state.loading && this.state.articles.map((element)=>{
          
           return  element.url==="https://removed.com"?" ":<div   className='col-md-4 ' key={element.url}>
             
@@ -125,7 +140,7 @@ clicktoprev =async()=>{
        
         <div className='container d-flex justify-content-between'>
         <button  disabled={this.state.page<=1} type="button" className="btn btn-info" onClick={this.clicktoprev}> &larr;previous</button>
-        <button disabled={Math.ceil(this.state.totalResults/20) < this.state.page+1} type="button" className="btn btn-info" onClick={this.clicktonext}>next &rarr;</button>
+        <button disabled={Math.ceil(this.state.totalResults/this.props.pagesize) < this.state.page+1} type="button" className="btn btn-info" onClick={this.clicktonext}>next &rarr;</button>
         
 
         </div>
@@ -135,3 +150,4 @@ clicktoprev =async()=>{
     )
   } 
 }
+
